@@ -130,18 +130,23 @@ export default function HomePage() {
               </span>
             </motion.div>
             <div className="hidden md:flex items-center space-x-6">
-              {["ココドコとは？", "イベント情報", "参加者の声", "自治体・企業の方へ"].map((item, index) => (
+              {[
+                { name: "ココドコとは？", href: "/about" },
+                { name: "イベント情報", href: "/events" },
+                // { name: "参加者の声", href: "/testimonials" }, // Temporarily hidden
+                { name: "企業・自治体", href: "/business" }
+              ].map((item, index) => (
                 <motion.div
-                  key={item}
+                  key={item.name}
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 + 0.3 }}
                 >
                   <Link
-                    href={`/${item.replace(/[？・]/g, "").toLowerCase()}`}
+                    href={item.href}
                     className="text-gray-700 hover:text-blue-600 transition-colors font-medium relative group"
                   >
-                    {item}
+                    {item.name}
                     <motion.div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-pink-500 group-hover:w-full transition-all duration-300" />
                   </Link>
                 </motion.div>
@@ -152,12 +157,14 @@ export default function HomePage() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.5 }}
             >
-              <Button
-                className="bg-gradient-to-r from-blue-500 to-pink-500 hover:from-blue-600 hover:to-pink-600 text-white rounded-full px-6"
-                {...glowButton}
-              >
-                イベント参加
-              </Button>
+              <Link href="/join">
+                <Button
+                  className="bg-gradient-to-r from-blue-500 to-pink-500 hover:from-blue-600 hover:to-pink-600 text-white rounded-full px-6"
+                  {...glowButton}
+                >
+                  イベント参加
+                </Button>
+              </Link>
             </motion.div>
           </nav>
         </div>
@@ -193,7 +200,7 @@ export default function HomePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.8 }}
               >
-                地域を巡る、謎を解く、新しい旅の形
+                写真をもとに、地域を巡る、新しい旅の形
               </motion.p>
 
               <motion.p
@@ -202,7 +209,7 @@ export default function HomePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7, duration: 0.8 }}
               >
-                学生向け謎解きイベントで地方創生を推進。観光公害を解決しながら、新しい地域体験を提供します。
+                写真を与えられ、その場所に行くことで地方創生を推進。観光公害を解決しながら、新しい地域体験を提供します。
               </motion.p>
             </motion.div>
 
@@ -213,34 +220,38 @@ export default function HomePage() {
               transition={{ delay: 0.9, duration: 0.8 }}
             >
               <motion.div {...glowButton}>
-                <Button
-                  size="lg"
-                  className="bg-gradient-to-r from-blue-500 to-pink-500 hover:from-blue-600 hover:to-pink-600 text-white rounded-full px-8 py-4 text-lg font-semibold shadow-lg"
-                >
-                  <motion.div
-                    animate={{ rotate: [0, 360] }}
-                    transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                <Link href="/join">
+                  <Button
+                    size="lg"
+                    className="bg-gradient-to-r from-blue-500 to-pink-500 hover:from-blue-600 hover:to-pink-600 text-white rounded-full px-8 py-4 text-lg font-semibold shadow-lg"
                   >
-                    <Play className="w-5 h-5 mr-2" />
-                  </motion.div>
-                  今すぐイベント参加
-                </Button>
+                    <motion.div
+                      animate={{ rotate: [0, 360] }}
+                      transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                    >
+                      <Play className="w-5 h-5 mr-2" />
+                    </motion.div>
+                    今すぐイベント参加
+                  </Button>
+                </Link>
               </motion.div>
 
               <motion.div {...scaleOnHover}>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="border-2 border-blue-300 text-blue-600 hover:bg-blue-50 rounded-full px-8 py-4 text-lg font-semibold bg-transparent"
-                >
-                  ココドコとは？
-                  <motion.div
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
+                <Link href="/about">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="border-2 border-blue-300 text-blue-600 hover:bg-blue-50 rounded-full px-8 py-4 text-lg font-semibold bg-transparent"
                   >
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </motion.div>
-                </Button>
+                    ココドコとは？
+                    <motion.div
+                      animate={{ x: [0, 5, 0] }}
+                      transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
+                    >
+                      <ArrowRight className="w-5 h-5 ml-2" />
+                    </motion.div>
+                  </Button>
+                </Link>
               </motion.div>
             </motion.div>
 
@@ -251,9 +262,9 @@ export default function HomePage() {
               animate="animate"
             >
               {[
-                { icon: MapPin, title: "地域発見", desc: "隠れた地域の魅力を発見", color: "blue" },
-                { icon: Users, title: "仲間づくり", desc: "同世代の仲間と楽しく参加", color: "pink" },
-                { icon: Star, title: "特別体験", desc: "謎解きで特別な思い出作り", color: "purple" },
+                { icon: MapPin, title: "地域発見", desc: "隠れた地域の魅力を発見、新しい旅行先の提案", color: "blue" },
+                { icon: Users, title: "チームプレイ", desc: "仲間と推理×散策で思い出作り", color: "pink" },
+                { icon: Star, title: "地域貢献", desc: "地域の魅力を発掘することで地域に貢献", color: "purple" },
               ].map((item, index) => (
                 <motion.div
                   key={index}
@@ -302,34 +313,34 @@ export default function HomePage() {
           >
             {[
               {
-                title: "京都謎解きウォーク",
-                location: "京都府京都市",
-                date: "2024年3月15日〜31日",
-                participants: "128名参加中",
-                image: "/placeholder.svg?height=200&width=300",
-                status: "開催中",
+                title: "みなとみらいLumosコラボイベント",
+                location: "神奈川県横浜市",
+                date: "2024年7月13日",
+                participants: "12名参加",
+                image: "/event-01.jpg",
+                status: "開催済み",
                 difficulty: "初級",
-                statusColor: "green",
+                statusColor: "gray",
               },
               {
-                title: "奈良古都ミステリー",
-                location: "奈良県奈良市",
-                date: "2024年4月1日〜14日",
-                participants: "募集中",
+                title: "鳥取街バルイベント",
+                location: "鳥取県鳥取市",
+                date: "2025年11月1日〜2日",
+                participants: "準備中",
                 image: "/placeholder.svg?height=200&width=300",
-                status: "募集中",
+                status: "準備中",
                 difficulty: "中級",
                 statusColor: "blue",
               },
               {
-                title: "広島平和記念謎解き",
-                location: "広島県広島市",
-                date: "2024年4月20日〜30日",
+                title: "横浜国立大学学祭出店",
+                location: "神奈川県横浜市",
+                date: "2025年10月31日〜11月2日",
                 participants: "準備中",
                 image: "/placeholder.svg?height=200&width=300",
                 status: "準備中",
-                difficulty: "上級",
-                statusColor: "gray",
+                difficulty: "初級",
+                statusColor: "blue",
               },
             ].map((event, index) => (
               <motion.div
@@ -409,14 +420,16 @@ export default function HomePage() {
             viewport={{ once: true }}
           >
             <motion.div {...scaleOnHover}>
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-2 border-blue-300 text-blue-600 hover:bg-blue-50 rounded-full px-8 bg-transparent"
-              >
-                すべてのイベントを見る
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
+              <Link href="/events">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-2 border-blue-300 text-blue-600 hover:bg-blue-50 rounded-full px-8 bg-transparent"
+                >
+                  すべてのイベントを見る
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
             </motion.div>
           </motion.div>
         </div>
@@ -447,7 +460,7 @@ export default function HomePage() {
               >
                 <h2 className="text-4xl font-bold text-gray-800 mb-6">ココドコとは？</h2>
                 <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                  学生向け謎解きイベントを通じて地方創生を推進する新しいプラットフォーム。観光公害の解決と地域活性化を両立させながら、参加者に特別な体験を提供します。
+                  画像を与えられ、それをもとに場所を考察、実際に現地を訪問することを通じて地方創生を推進する新しいプラットフォーム。観光公害の解決と地域活性化を両立させながら、参加者に特別な体験を提供します。
                 </p>
                 <motion.div
                   className="space-y-4 mb-8"
@@ -458,8 +471,8 @@ export default function HomePage() {
                 >
                   {[
                     { color: "blue", text: "地域の隠れた魅力を発見" },
-                    { color: "pink", text: "持続可能な観光の推進" },
-                    { color: "purple", text: "学生同士のコミュニティ形成" },
+                    { color: "pink", text: "チームで推理×散策" },
+                    { color: "purple", text: "持続可能な観光の推進" },
                   ].map((item, index) => (
                     <motion.div key={index} variants={fadeInUp} className="flex items-center" whileHover={{ x: 10 }}>
                       <motion.div
@@ -476,13 +489,15 @@ export default function HomePage() {
                   ))}
                 </motion.div>
                 <motion.div {...glowButton}>
-                  <Button
-                    size="lg"
-                    className="bg-gradient-to-r from-blue-500 to-pink-500 hover:from-blue-600 hover:to-pink-600 text-white rounded-full px-8"
-                  >
-                    詳しく見る
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </Button>
+                  <Link href="/about">
+                    <Button
+                      size="lg"
+                      className="bg-gradient-to-r from-blue-500 to-pink-500 hover:from-blue-600 hover:to-pink-600 text-white rounded-full px-8"
+                    >
+                      詳しく見る
+                      <ArrowRight className="w-5 h-5 ml-2" />
+                    </Button>
+                  </Link>
                 </motion.div>
               </motion.div>
               <motion.div
@@ -554,26 +569,23 @@ export default function HomePage() {
           >
             {[
               {
-                name: "田中 美咲",
-                university: "京都大学 2年",
+                university: "大学3年",
                 comment:
-                  "普通の観光では絶対に行かない場所を発見できて、本当に楽しかった！謎解きも程よい難易度で、友達と協力して解けた時の達成感は最高でした。",
+                  "難易度設定が良かったと思います！楽しかったです！ありがとうございました！",
                 rating: 5,
                 image: "/placeholder.svg?height=80&width=80",
               },
               {
-                name: "佐藤 健太",
-                university: "大阪大学 3年",
+                university: "大学院生",
                 comment:
-                  "地元の人との交流もあって、その地域の文化や歴史を深く知ることができました。SNSでシェアしたら友達からも「参加したい！」って言われました。",
+                  "観光地であればどこでも楽しめる枠組みだと感じた。基本的な観光マップとセットで行うと知らない街でも楽しめそうな気がする。",
                 rating: 5,
                 image: "/placeholder.svg?height=80&width=80",
               },
               {
-                name: "山田 花音",
-                university: "同志社大学 1年",
+                university: "大学3年",
                 comment:
-                  "初めての参加でしたが、運営の方々がとても親切で安心して楽しめました。次回も絶対参加します！新しい友達もできて一石二鳥でした。",
+                  "楽しいイベントでした！次あれば是非参加したいと思います。",
                 rating: 5,
                 image: "/placeholder.svg?height=80&width=80",
               },
@@ -593,14 +605,13 @@ export default function HomePage() {
                       <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ duration: 0.3 }}>
                         <Image
                           src={testimonial.image || "/placeholder.svg"}
-                          alt={testimonial.name}
+                          alt="参加者の写真"
                           width={80}
                           height={80}
                           className="w-16 h-16 rounded-full object-cover mr-4"
                         />
                       </motion.div>
                       <div>
-                        <h4 className="font-semibold text-gray-800">{testimonial.name}</h4>
                         <p className="text-sm text-gray-600">{testimonial.university}</p>
                         <div className="flex items-center mt-1">
                           {[...Array(testimonial.rating)].map((_, i) => (
@@ -623,7 +634,8 @@ export default function HomePage() {
             ))}
           </motion.div>
 
-          <motion.div
+          {/* Temporarily hidden until more testimonials are available */}
+          {/* <motion.div
             className="text-center mt-12"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -631,16 +643,18 @@ export default function HomePage() {
             viewport={{ once: true }}
           >
             <motion.div {...scaleOnHover}>
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-2 border-blue-300 text-blue-600 hover:bg-blue-50 rounded-full px-8 bg-transparent"
-              >
-                もっと見る
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
+              <Link href="/testimonials">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-2 border-blue-300 text-blue-600 hover:bg-blue-50 rounded-full px-8 bg-transparent"
+                >
+                  もっと見る
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
             </motion.div>
-          </motion.div>
+          </motion.div> */}
         </div>
       </AnimatedSection>
 
@@ -690,7 +704,7 @@ export default function HomePage() {
             >
               {[
                 { icon: MapPin, title: "地域活性化", desc: "隠れた観光資源の発掘と活用" },
-                { icon: Users, title: "若者誘致", desc: "学生層の新規観光客獲得" },
+                { icon: Users, title: "若者誘致", desc: "若者層の新規観光客獲得" },
                 { icon: Heart, title: "持続可能性", desc: "観光公害対策と環境配慮" },
               ].map((item, index) => (
                 <motion.div
@@ -719,23 +733,24 @@ export default function HomePage() {
               transition={{ duration: 0.6, delay: 0.4 }}
               viewport={{ once: true }}
             >
-              <motion.div {...glowButton}>
+              {/* <motion.div {...glowButton}>
                 <Button
                   size="lg"
                   className="bg-white text-blue-600 hover:bg-gray-100 rounded-full px-8 py-4 font-semibold"
                 >
                   導入事例を見る
                 </Button>
-              </motion.div>
+              </motion.div> */}
               <motion.div {...scaleOnHover}>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="border-2 border-white text-white hover:bg-white/10 rounded-full px-8 py-4 font-semibold bg-transparent"
-                >
-                  お問い合わせ
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
+                <a href="mailto:cocodoco.information@gmail.com">
+                  <Button
+                    size="lg"
+                    className="bg-white text-blue-600 hover:bg-gray-100 rounded-full px-8 py-4 font-semibold"
+                  >
+                    お問い合わせ（メール）
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </a>
               </motion.div>
             </motion.div>
           </div>
@@ -764,22 +779,37 @@ export default function HomePage() {
             viewport={{ once: true }}
           >
             {[
-              { name: "LINE公式アカウント", icon: "📱", color: "green-500", hoverColor: "green-600" },
+              {
+                name: "LINE公式アカウント",
+                icon: "📱",
+                color: "green-500",
+                hoverColor: "green-600",
+                url: "https://line.me/R/ti/p/@128ggzcz"
+              },
               {
                 name: "Instagram",
                 icon: "📸",
                 color: "gradient-to-r from-pink-500 to-purple-500",
                 hoverColor: "from-pink-600 to-purple-600",
+                url: "https://www.instagram.com/cocodoco_japan"
               },
-              { name: "Twitter", icon: "🐦", color: "blue-500", hoverColor: "blue-600" },
+              {
+                name: "X",
+                icon: "✖️",
+                color: "black",
+                hoverColor: "gray-800",
+                url: "https://x.com/CocodocoT1109"
+              },
             ].map((social, index) => (
               <motion.div key={index} variants={fadeInUp} {...glowButton}>
-                <Button
-                  className={`bg-${social.color} hover:bg-${social.hoverColor} text-white rounded-full px-8 py-4`}
-                >
-                  <span className="mr-2">{social.icon}</span>
-                  {social.name}
-                </Button>
+                <Link href={social.url} target="_blank" rel="noopener noreferrer">
+                  <Button
+                    className={`bg-${social.color} hover:bg-${social.hoverColor} text-white rounded-full px-8 py-4`}
+                  >
+                    <span className="mr-2">{social.icon}</span>
+                    {social.name}
+                  </Button>
+                </Link>
               </motion.div>
             ))}
           </motion.div>
@@ -833,12 +863,29 @@ export default function HomePage() {
             {[
               {
                 title: "サービス",
-                links: ["ココドコとは？", "イベント情報", "参加者の声", "お知らせ"],
+                links: [
+                  { name: "ココドコとは？", href: "/about" },
+                  { name: "イベント情報", href: "/events" },
+                  // { name: "参加者の声", href: "/testimonials" }, // Temporarily hidden
+                  // { name: "お知らせ", href: "#" } // Temporarily hidden
+                ],
               },
               {
                 title: "企業・自治体",
-                links: ["導入について", "会社情報", "お問い合わせ"],
+                links: [
+                  { name: "導入について", href: "/business" },
+                  // { name: "会社情報", href: "#" }, // Temporarily hidden
+                  { name: "お問い合わせ", href: "mailto:cocodoco.information@gmail.com" }
+                ],
               },
+              // {
+              //   title: "サポート",
+              //   links: [
+              //     { name: "よくある質問", href: "/faq" },
+              //     { name: "利用規約", href: "/terms" },
+              //     { name: "プライバシーポリシー", href: "/privacy" },
+              //   ],
+              // }, // Temporarily hidden
               {
                 title: "フォローする",
                 links: [],
@@ -848,29 +895,28 @@ export default function HomePage() {
                 <h4 className="font-semibold mb-4">{section.title}</h4>
                 {section.title === "フォローする" ? (
                   <div className="flex space-x-3">
-                    {["L", "I", "T"].map((letter, i) => (
-                      <motion.div
-                        key={i}
-                        className={`w-8 h-8 ${
-                          letter === "L"
-                            ? "bg-green-500 hover:bg-green-600"
-                            : letter === "I"
-                              ? "bg-gradient-to-r from-pink-500 to-purple-500 hover:opacity-80"
-                              : "bg-blue-500 hover:bg-blue-600"
-                        } rounded-full flex items-center justify-center cursor-pointer transition-all`}
-                        whileHover={{ scale: 1.2, rotate: 360 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <span className="text-xs">{letter}</span>
-                      </motion.div>
+                    {[
+                      { letter: "L", color: "bg-green-500 hover:bg-green-600", url: "https://line.me/R/ti/p/@128ggzcz" },
+                      { letter: "I", color: "bg-gradient-to-r from-pink-500 to-purple-500 hover:opacity-80", url: "https://www.instagram.com/cocodoco_japan" },
+                      { letter: "X", color: "bg-black hover:bg-gray-800", url: "https://x.com/CocodocoT1109" }
+                    ].map((social, i) => (
+                      <Link key={i} href={social.url} target="_blank" rel="noopener noreferrer">
+                        <motion.div
+                          className={`w-8 h-8 ${social.color} rounded-full flex items-center justify-center cursor-pointer transition-all`}
+                          whileHover={{ scale: 1.2, rotate: 360 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <span className="text-xs text-white">{social.letter}</span>
+                        </motion.div>
+                      </Link>
                     ))}
                   </div>
                 ) : (
                   <ul className="space-y-2 text-sm text-gray-400">
                     {section.links.map((link, linkIndex) => (
                       <motion.li key={linkIndex} whileHover={{ x: 5, color: "#ffffff" }} transition={{ duration: 0.2 }}>
-                        <Link href="#" className="hover:text-white transition-colors">
-                          {link}
+                        <Link href={link.href} className="hover:text-white transition-colors">
+                          {link.name}
                         </Link>
                       </motion.li>
                     ))}
@@ -887,7 +933,7 @@ export default function HomePage() {
             transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            <p>&copy; 2024 ココドコ. All rights reserved.</p>
+            <p>&copy; 2025 ココドコ. All rights reserved.</p>
           </motion.div>
         </div>
       </motion.footer>
